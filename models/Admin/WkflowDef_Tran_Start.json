@@ -1,0 +1,28 @@
+{
+  "WkflowDef_Tran_Start": {
+    "layout":"form",
+    "table":"wkflow_def_state_tran",
+    "title":"Start Transition",
+    "actions":"BIUD",
+    "caption": ["","Start Transition","Start Transitions"],
+    "onecolumn":true,
+    "popup":[900,500],
+    "fields": [
+      {"name":"wkflow_def_id", "caption":"Workflow ID", "control": "hidden", "foreignkey": true, "actions": "B", "sqlselect": "(select wkflow_def_id from {schema}.wkflow_def_state wds where wds.wkflow_def_state_id = wkflow_def_state_id_dst)"},
+      {"name":"wkflow_def_state_tran_id", "caption":"ID"},
+      {"name":"wkflow_def_state_tran_seq", "caption":"Seq #", "control": "textbox_VS"},
+      {"name":"wkflow_def_state_tran_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_def_state_tran_sts" }, "default": "ACTIVE"},
+
+      {"name":"wkflow_def_state_id_dst", "caption":"To", "lov": { "sql": "select wkflow_def_state_id code_val, wkflow_def_state_name code_txt from {schema}.wkflow_def_state where wkflow_def_id=@wkflow_def_id and wkflow_def_state_sts='ACTIVE' order by wkflow_def_state_name" }},
+
+      {"name":"wkflow_def_state_tran_cond_type", "caption":"Condition", "lov": { "sql": "select code_val, code_txt from {schema}.code_wkflow_def_state_tran_cond_type where code_code = 'START' and (code_end_dt is null or code_end_dt > jsharmony.my_now())" }},
+      {"name":"wkflow_def_state_tran_cond_param", "caption":"Condition Param", "control": "textarea_M", "hints": { "caption": "Tasks", "separator": " " }, "lov": { "sql": "select task_def_code code_val, task_def_name code_txt from {schema}.task_def where task_def_sts='ACTIVE'" }},
+      
+      {"name":"wkflow_def_state_tran_etstmp", "caption":"Entered", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_tran_euser", "caption":"Entered By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_tran_euser)"},
+      {"name":"wkflow_def_state_tran_mtstmp", "caption":"Modified", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_tran_muser", "caption":"Modified By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_tran_muser)"},
+      {"name":"wkflow_def_state_tran_snotes", "caption":"System Notes", "control": "textbox_VL"},
+    ]
+  }
+}

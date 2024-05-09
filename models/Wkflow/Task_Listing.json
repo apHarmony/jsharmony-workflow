@@ -1,0 +1,45 @@
+{
+  "Task_Listing":{
+    "layout": "grid",
+    "title": "Tasks",
+    "table": "task",
+    "menu": "Wkflow/Task_Listing",
+    "caption": ["","Task","Tasks"],
+    "actions": "B",
+    "sort": ["vtask_id"],
+    "buttons":[
+      { "name":"addTask", "link":"insert:Task","icon":"add","text":"Add Task" },
+    ],
+    "fields": [
+      {"name":"task_id", "caption":"ID", "link": "update:Task_Tabs"},
+      {"name":"task_def_name", "caption":"Task Name", "link": "update:Task_Tabs", "sqlselect": "(select task_def_name from {schema}.task_def where task_def.task_def_id = task.task_def_id)"},
+      {"name":"task_sts", "caption":"Status", "lov": { "{{code_sys}}": "task_sts" }},
+      {"name":"task_due", "caption":"Due","format":["date","MM/DD/YYYY"]},
+      {"name":"wkflow_id", "caption":"Workflow ID", "link": "update:Wkflow_Tabs"},
+      {"name":"wkflow_def_name", "caption":"Workflow", "link": "update:Wkflow_Tabs", "sqlselect": "(select wkflow_def_name from {schema}.wkflow_def inner join {schema}.wkflow on wkflow.wkflow_def_id = wkflow_def.wkflow_def_id where wkflow.wkflow_id = task.wkflow_id)"},
+      {"name":"task_unotes", "caption":"User Notes"},
+      {"name":"task_etstmp", "caption":"Entered","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"task_euser", "caption":"Entered By", "sqlselect": "jsharmony.my_db_user_fmt(task_euser)"},
+      {"name":"task_mtstmp", "caption":"Modified","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"task_muser", "caption":"Modified By", "sqlselect": "jsharmony.my_db_user_fmt(task_muser)"},
+      {"name":"task_snotes", "caption":"System Notes"},
+    ]
+  },
+  "Task_Listing_MyCurrent": {
+    "inherits": "Task_Listing",
+    "title": "My Current Tasks",
+    "menu": "Wkflow/Task_Listing_MyCurrent",
+    "sqlwhere": "task_sts = 'ACTIVE' and task_def_id in (select task_def_id from jsharmony.sys_user_func suf inner join {schema}.task_def_sys_func tdsf on tdsf.sys_func_name = suf.sys_func_name where sys_user_id=jsharmony.my_sys_user_id())",
+  },
+  "Task_Listing_MyHistory": {
+    "inherits": "Task_Listing",
+    "title": "Task History",
+    "menu": "Wkflow/Task_Listing_MyHistory",
+    "sqlwhere": "task_sts <> 'ACTIVE' and task_def_id in (select task_def_id from jsharmony.sys_user_func suf inner join {schema}.task_def_sys_func tdsf on tdsf.sys_func_name = suf.sys_func_name where sys_user_id=jsharmony.my_sys_user_id())",
+  },
+  "Task_Listing_AllUsers": {
+    "inherits": "Task_Listing",
+    "title": "All User Tasks",
+    "menu": "Wkflow/Task_Listing_AllUsers",
+  },
+}

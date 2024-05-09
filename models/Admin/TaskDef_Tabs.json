@@ -1,0 +1,19 @@
+{
+  "TaskDef_Tabs":{
+    "layout": "form", 
+    "title": "Task Definition: <#=data.task_def_name#>",
+    "table": "task_def",
+    "actions": "B",
+    "caption": [ 0, "Task Definition", "Task Definitions" ],
+    "tabpos":"bottom",
+    "tabs":[
+      {"name":"General","target":"TaskDef"},
+      {"name":"Functions","target":"TaskDef_Func"},
+    ],
+    "popup":[1300,700],
+    "fields":[
+      {"name":"task_def_id","type":"bigint","key":true,"control":"hidden"},
+      {"name":"task_def_name","control":"hidden"},
+    ]
+  },
+}

@@ -1,0 +1,18 @@
+{
+  "Task_Tabs":{
+    "layout": "form", 
+    "title": "Task: <#=data.task_def_name#>",
+    "table": "task",
+    "actions": "B",
+    "caption": [ 0, "Task", "Tasks" ],
+    "tabpos":"bottom",
+    "tabs":[
+      {"name":"General","target":"Task"},
+    ],
+    "popup":[1300,700],
+    "fields":[
+      {"name":"task_id","type":"bigint","key":true,"control":"hidden"},
+      {"name":"task_def_name","control":"hidden","sqlselect":"(select task_def_name from {schema}.task_def where task_def.task_def_id = task.task_def_id)"},
+    ]
+  },
+}

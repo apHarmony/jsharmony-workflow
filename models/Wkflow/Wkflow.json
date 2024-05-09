@@ -1,0 +1,31 @@
+{
+  "Wkflow": {
+    "layout":"form",
+    "table":"wkflow",
+    "title":"Workflow",
+    "actions":"BIUD",
+    "caption": ["","Workflow","Workflows"],
+    "onecolumn":true,
+    "popup":[1300,700],
+    "oninsert": "XExt.navTo(jsh._BASEURL+xmodel.namespace+'Wkflow_Tabs?action=update&wkflow_id='+urlkeys.wkflow_id); jsh.XPage.RefreshParent(); return false;",
+    "fields": [
+      {"name":"wkflow_id", "caption":"ID"},
+      {"name":"wkflow_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_sts" }, "default": "ACTIVE"},
+      {"name":"wkflow_sts_tstmp", "caption":"Updated", "actions": "B","format":["date","MM/DD/YYYY h:mm A"],"nl":false},
+      {"name":"wkflow_sts_user", "caption":"By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_sts_user)","nl":false},
+
+      {"name":"wkflow_def_id", "caption":"Workflow", "actions": "BI", "lov": { "sql": "select wkflow_def_id code_val, wkflow_def_name code_txt from {schema}.wkflow_def where wkflow_def_sts='ACTIVE'" }},
+
+      {"name":"wkflow_def_state_id", "caption": "State", "lov": { "sql": "select wkflow_def_state_id code_val, wkflow_def_state_name code_txt from {schema}.wkflow_def_state where wkflow_def_state_sts='ACTIVE'" }},
+      {"name":"wkflow_def_state_id_tstmp", "caption":"Updated", "actions": "B","format":["date","MM/DD/YYYY h:mm A"],"nl":false},
+      {"name":"wkflow_def_state_id_user", "caption":"By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_id_user)","nl":false},
+      
+      {"name":"wkflow_etstmp", "caption":"Entered", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_euser", "caption":"Entered By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_euser)"},
+      {"name":"wkflow_mtstmp", "caption":"Modified", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_muser", "caption":"Modified By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_muser)"},
+      {"name":"wkflow_snotes", "caption":"System Notes", "control": "textbox_VL"},
+
+    ]
+  }
+}

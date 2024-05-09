@@ -1,0 +1,26 @@
+{
+  "WkflowDef_State": {
+    "layout":"form",
+    "table":"wkflow_def_state",
+    "title":"State",
+    "actions":"BIUD",
+    "caption": ["","State","States"],
+    "onecolumn":true,
+    "popup":[1300,600],
+    "oninsert": "XExt.navTo(jsh._BASEURL+xmodel.namespace+'WkflowDef_State_Tabs?action=update&wkflow_def_state_id='+urlkeys.wkflow_def_state_id); jsh.XPage.RefreshParent(); return false;",
+    "fields": [
+      {"name":"wkflow_def_id", "caption":"Workflow Definition ID", "control": "hidden", "foreignkey": true},
+      {"name":"wkflow_def_state_id", "caption":"ID"},
+      {"name":"wkflow_def_state_name", "caption":"State Name"},
+      {"name":"wkflow_def_state_code", "caption":"Code"},
+      {"name":"wkflow_def_state_type", "caption":"Type", "lov": { "{{code_sys}}": "wkflow_def_state_type" }, "default": "STANDARD"},
+      {"name":"wkflow_def_state_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_def_state_sts" }, "default": "ACTIVE"},
+      {"name":"wkflow_def_state_desc", "caption":"Description", "control": "textbox_VL"},
+      {"name":"wkflow_def_state_etstmp", "caption":"Entered", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_euser", "caption":"Entered By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_euser)"},
+      {"name":"wkflow_def_state_mtstmp", "caption":"Modified", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_muser", "caption":"Modified By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_muser)"},
+      {"name":"wkflow_def_state_snotes", "caption":"System Notes", "control": "textbox_VL"},
+    ]
+  }
+}

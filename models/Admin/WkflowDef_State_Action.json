@@ -1,0 +1,25 @@
+{
+  "WkflowDef_State_Action": {
+    "layout":"form",
+    "table":"wkflow_def_state_action",
+    "title":"Action",
+    "actions":"BIUD",
+    "caption": ["","Action","Actions"],
+    "onecolumn":true,
+    "popup":[900,500],
+    "fields": [
+      {"name":"wkflow_def_state_id", "caption":"State ID", "control": "hidden", "foreignkey": true},
+      {"name":"wkflow_def_state_action_id", "caption":"ID"},
+      {"name":"wkflow_def_state_action_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_def_state_action_sts" }, "default": "ACTIVE"},
+
+      {"name":"wkflow_def_state_action_type", "caption":"Action", "lov": { "{{code_sys}}": "wkflow_def_state_action_type" }},
+      {"name":"wkflow_def_state_action_param", "caption":"Action Param", "control": "textbox_VL", "hints": { "caption": "Tasks", "separator": " " }, "lov": { "sql": "select task_def_code code_val, task_def_name code_txt from {schema}.task_def where task_def_sts='ACTIVE'" }},
+      
+      {"name":"wkflow_def_state_action_etstmp", "caption":"Entered", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_action_euser", "caption":"Entered By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_action_euser)"},
+      {"name":"wkflow_def_state_action_mtstmp", "caption":"Modified", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_action_muser", "caption":"Modified By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_action_muser)"},
+      {"name":"wkflow_def_state_action_snotes", "caption":"System Notes", "control": "textbox_VL"},
+    ]
+  }
+}

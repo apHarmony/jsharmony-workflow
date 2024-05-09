@@ -1,0 +1,27 @@
+{
+  "WkflowDef_State_Tran_Listing":{
+    "layout": "grid",
+    "title": "Transitions",
+    "table": "wkflow_def_state_tran",
+    "caption": ["","Transition","Transitions"],
+    "actions": "B",
+    "sort": ["^wkflow_def_state_tran_seq","^wkflow_def_state_tran_id"],
+    "buttons":[
+      { "name":"addWkflowDefStateTran", "link":"insert:WkflowDef_State_Tran","icon":"add","text":"Add Transition" },
+    ],
+    "fields": [
+      {"name":"wkflow_def_state_id_src", "caption":"State Src ID", "control": "hidden", "foreignkey": true},
+      {"name":"wkflow_def_state_tran_id", "caption":"ID"},
+      {"name":"wkflow_def_state_tran_seq", "caption":"Seq"},
+      {"name":"wkflow_def_state_tran_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_def_state_tran_sts" }},
+      {"name":"wkflow_def_state_id_dst", "caption":"Destination", "link": "update:WkflowDef_State_Tran", "lov": { "sqlselect": "(select wkflow_def_state_name from {schema}.wkflow_def_state wds where wds.wkflow_def_state_id=wkflow_def_state_id_dst and wds.wkflow_def_state_sts='ACTIVE')" }},
+      {"name":"wkflow_def_state_tran_cond_type", "caption":"Condition", "lov": { "{{code_sys}}": "wkflow_def_state_tran_cond_type" }},
+      {"name":"wkflow_def_state_tran_cond_param", "caption":"Condition Param"},
+      {"name":"wkflow_def_state_tran_etstmp", "caption":"Entered","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_tran_euser", "caption":"Entered By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_tran_euser)"},
+      {"name":"wkflow_def_state_tran_mtstmp", "caption":"Modified","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_tran_muser", "caption":"Modified By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_tran_muser)"},
+      {"name":"wkflow_def_state_tran_snotes", "caption":"System Notes"},
+    ]
+  }
+}

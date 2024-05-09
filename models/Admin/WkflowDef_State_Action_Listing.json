@@ -1,0 +1,25 @@
+{
+  "WkflowDef_State_Action_Listing":{
+    "layout": "grid",
+    "title": "Actions",
+    "table": "wkflow_def_state_action",
+    "caption": ["","Action","Actions"],
+    "actions": "B",
+    "sort": ["^wkflow_def_state_action_id"],
+    "buttons":[
+      { "name":"addWkflowDefStateAction", "link":"insert:WkflowDef_State_Action","icon":"add","text":"Add Action" },
+    ],
+    "fields": [
+      {"name":"wkflow_def_state_id", "caption":"State ID", "control": "hidden", "foreignkey": true},
+      {"name":"wkflow_def_state_action_id", "caption":"ID"},
+      {"name":"wkflow_def_state_action_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_def_state_action_sts" }},
+      {"name":"wkflow_def_state_action_type", "caption":"Action", "lov": { "{{code_sys}}": "wkflow_def_state_action_type" }, "link": "update:WkflowDef_State_Action"},
+      {"name":"wkflow_def_state_action_param", "caption":"Action Param"},
+      {"name":"wkflow_def_state_action_etstmp", "caption":"Entered","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_action_euser", "caption":"Entered By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_action_euser)"},
+      {"name":"wkflow_def_state_action_mtstmp", "caption":"Modified","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_action_muser", "caption":"Modified By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_action_muser)"},
+      {"name":"wkflow_def_state_action_snotes", "caption":"System Notes"},
+    ]
+  }
+}

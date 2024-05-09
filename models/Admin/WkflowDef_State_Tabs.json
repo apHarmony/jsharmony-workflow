@@ -1,0 +1,20 @@
+{
+  "WkflowDef_State_Tabs":{
+    "layout": "form", 
+    "title": "State: <#=data.wkflow_def_state_name#>",
+    "table": "wkflow_def_state",
+    "actions": "B",
+    "caption": [ 0, "State", "States" ],
+    "tabpos":"bottom",
+    "tabs":[
+      {"name":"General","target":"WkflowDef_State"},
+      {"name":"Actions","target":"WkflowDef_State_Action_Listing"},
+      {"name":"Transitions","target":"WkflowDef_State_Tran_Listing", "bindings": { "wkflow_def_state_id_src": "wkflow_def_state_id" }},
+    ],
+    "popup":[1300,600],
+    "fields":[
+      {"name":"wkflow_def_state_id","type":"bigint","key":true,"control":"hidden"},
+      {"name":"wkflow_def_state_name","control":"hidden"},
+    ]
+  },
+}

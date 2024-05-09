@@ -1,0 +1,38 @@
+{
+  "Wkflow_Listing":{
+    "layout": "grid",
+    "title": "Workflows",
+    "table": "wkflow",
+    "menu": "Wkflow/Wkflow_Listing",
+    "caption": ["","Workflow","Workflows"],
+    "actions": "B",
+    "sort": ["vwkflow_id"],
+    "buttons":[
+      { "name":"addWkflow", "link":"insert:Wkflow","icon":"add","text":"Add Workflow" },
+    ],
+    "fields": [
+      {"name":"wkflow_id", "caption":"ID"},
+      {"name":"wkflow_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_sts" }},
+      {"name":"wkflow_def_name", "caption":"Workflow", "link": "update:Wkflow_Tabs", "sqlselect": "(select wkflow_def_name from {schema}.wkflow_def where wkflow_def.wkflow_def_id = wkflow.wkflow_def_id)"},      
+      {"name":"wkflow_def_state_name", "caption":"State", "link": "update:Wkflow_Tabs", "sqlselect": "(select wkflow_def_state_name from {schema}.wkflow_def_state where wkflow_def_state.wkflow_def_state_id = wkflow.wkflow_def_state_id)"},
+
+      {"name":"wkflow_etstmp", "caption":"Entered", "format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_euser", "caption":"Entered By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_euser)"},
+      {"name":"wkflow_mtstmp", "caption":"Modified", "format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_muser", "caption":"Modified By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_muser)"},
+      {"name":"wkflow_snotes", "caption":"System Notes"},
+    ]
+  },
+  "Wkflow_Listing_Active": {
+    "inherits": "Wkflow_Listing",
+    "title": "Active Workflows",
+    "menu": "Wkflow/Wkflow_Listing_Active",
+    "sqlwhere": "wkflow_sts = 'ACTIVE'",
+  },
+  "Wkflow_Listing_History": {
+    "inherits": "Wkflow_Listing",
+    "title": "Workflow History",
+    "menu": "Wkflow/Wkflow_Listing_History",
+    "sqlwhere": "wkflow_sts <> 'ACTIVE'",
+  },
+}

@@ -1,0 +1,21 @@
+{
+  "TaskDef_Func":{
+    "layout": "multisel",
+    "title": "Functions",
+    "table": "task_def_sys_func",
+    "caption": ["","Function","Functions"],
+    "actions": "BU",
+    "sort": ["^task_def_id"],
+    "fields": [
+      {"name":"task_def_id", "control":"hidden","foreignkey":true},
+      {"name":"task_def_sys_func_id", "control":"hidden","key":true},
+      {"name":"sys_func_name","type":"varchar","length":"32","cellstyle":"width:300px;",
+        "caption":"Function","actions":"B",
+        "lov": { "sql": ["select sys_func_name as %%%jsh.map.{{code_val}}%%%, ",
+                          "       sys_func_desc as %%%jsh.map.{{code_txt}}%%%,",
+                          "       sys_func_seq as %%%jsh.map.{{code_seq}}%%% ",
+                          "  from jsharmony.sys_func"] }
+      }
+    ]
+  }
+}

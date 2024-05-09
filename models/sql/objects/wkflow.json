@@ -1,0 +1,383 @@
+{
+  "code_wkflow_def_sts": {
+    "type": "code",
+    "caption": "Workflow Definition Status",
+    "init_data": [
+      {"code_seq":1, "code_val":"ACTIVE", "code_txt":"Active"},
+      {"code_seq":2, "code_val":"HOLD", "code_txt":"Hold"},
+      {"code_seq":3, "code_val":"CLOSED", "code_txt":"Closed"},
+    ]
+  },
+  
+  "code_wkflow_def_state_sts": {
+    "type": "code",
+    "caption": "Workflow Definition State Status",
+    "init_data": [
+      {"code_seq":1, "code_val":"ACTIVE", "code_txt":"Active"},
+      {"code_seq":2, "code_val":"HOLD", "code_txt":"Hold"},
+      {"code_seq":3, "code_val":"CLOSED", "code_txt":"Closed"},
+    ]
+  },
+  
+  "code_wkflow_def_state_type": {
+    "type": "code",
+    "caption": "Workflow Definition State Type",
+    "init_data": [
+      {"code_seq":1, "code_val":"STANDARD", "code_txt":"Standard"},
+      {"code_seq":2, "code_val":"TERMINAL", "code_txt":"Terminal"},
+      
+    ]
+  },
+  
+  "code_wkflow_def_state_tran_sts": {
+    "type": "code",
+    "caption": "Workflow Definition State Transition Status",
+    "init_data": [
+      {"code_seq":1, "code_val":"ACTIVE", "code_txt":"Active"},
+      {"code_seq":2, "code_val":"HOLD", "code_txt":"Hold"},
+      {"code_seq":3, "code_val":"CLOSED", "code_txt":"Closed"},
+    ]
+  },
+  
+  "code_wkflow_def_state_tran_cond_type": {
+    "type": "code",
+    "caption": "Workflow Definition State Transition Condition Type",
+    "init_data": [
+      {"code_seq":1, "code_val":"SQL", "code_txt":"SQL"},
+      {"code_seq":2, "code_val":"TASKCMPL", "code_txt":"Task Completion"},
+    ]
+  },
+  
+  "code_wkflow_def_state_action_sts": {
+    "type": "code",
+    "caption": "Workflow Definition State Action Status",
+    "init_data": [
+      {"code_seq":1, "code_val":"ACTIVE", "code_txt":"Active"},
+      {"code_seq":2, "code_val":"HOLD", "code_txt":"Hold"},
+      {"code_seq":3, "code_val":"CLOSED", "code_txt":"Closed"},
+    ]
+  },
+
+  
+  "code_wkflow_def_state_action_type": {
+    "type": "code",
+    "caption": "Workflow Definition State Action Type",
+    "init_data": [
+      {"code_seq":1, "code_val":"SQL", "code_txt":"SQL"},
+      {"code_seq":2, "code_val":"NEWTASK", "code_txt":"New Task"},
+    ]
+  },
+  
+  "code_wkflow_sts": {
+    "type": "code",
+    "caption": "Workflow Status",
+    "init_data": [
+      {"code_seq":1, "code_val":"ACTIVE", "code_txt":"Active"},
+      {"code_seq":2, "code_val":"HOLD", "code_txt":"Hold"},
+      {"code_seq":3, "code_val":"COMPLETE", "code_txt":"Complete"},
+      {"code_seq":4, "code_val":"CANCELED", "code_txt":"Canceled"},
+      {"code_seq":5, "code_val":"STARTING", "code_txt":"Starting"},
+    ]
+  },
+
+  "code_wkflow_tran_sts": {
+    "type": "code",
+    "caption": "Workflow Transition Status",
+    "init_data": [
+      {"code_seq":1, "code_val":"PENDING", "code_txt":"Pending"},
+      {"code_seq":2, "code_val":"COMPLETE", "code_txt":"Complete"},
+    ]
+  },
+  
+  "code_wkflow_var_name": {
+    "type": "code",
+    "caption": "Workflow Variable Name",
+    "init_data": [
+    ]
+  },
+
+  "wkflow_def": {
+    "type": "table",
+    "caption": "wkflow_def",
+    "table": "wkflow_def",
+    "columns": [
+      {"name":"wkflow_def_id", "type":"bigint", "key":true, "identity": true, "foreignkey":{"wkflow_def_state":"wkflow_def_id"}, "null":false},
+      {"name":"wkflow_def_sts", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_def_sts":"code_val"}, "null":false, "default": "ACTIVE"},
+      {"name":"wkflow_def_code", "type":"varchar", "length":32, "null":false},
+      {"name":"wkflow_def_name", "type":"varchar", "length":64, "null":false},
+      {"name":"wkflow_def_desc", "type":"varchar", "length":1024},
+      {"name":"wkflow_def_state_id_start", "type":"bigint", "foreignkey":{"wkflow_def_state":"wkflow_def_state_id"}},
+      {"name":"wkflow_def_euser", "type":"varchar", "length":20, "default": { "sql": "%%%%%%jsh.map.current_user%%%%%%" }},
+      {"name":"wkflow_def_etstmp", "type":"datetime", "precision":7, "default": { "sql": "%%%%%%jsh.map.timestamp%%%%%%" }},
+      {"name":"wkflow_def_muser", "type":"varchar", "length":20},
+      {"name":"wkflow_def_mtstmp", "type":"datetime", "precision":7},
+      {"name":"wkflow_def_snotes", "type":"varchar", "length":1024}
+    ],
+    "index": [
+      { "columns": ["wkflow_def_sts"] },
+      { "columns": ["wkflow_def_code"] },
+    ],
+    "triggers": [
+      { "on": ["update", "insert"], "exec": [
+          "set(wkflow_def_mtstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "set(wkflow_def_muser,%%%%%%jsh.map.current_user%%%%%%);",
+        ]
+      },
+      { "on": ["insert"], "exec": [
+          "jsharmony.log_audit_insert('wkflow_def',inserted(wkflow_def_id),wkflow_def_id)",
+        ]
+      },
+      { "on": ["update"], "exec": [
+        "jsharmony.log_audit_update_mult('wkflow_def',deleted(wkflow_def_id),[\"wkflow_def_sts\",\"wkflow_def_code\",\"wkflow_def_name\",\"wkflow_def_desc\",\"wkflow_def_state_id_start\"])",
+      ]
+      },
+      { "on": ["delete"], "exec": [
+        "jsharmony.log_audit_delete_mult('wkflow_def',deleted(wkflow_def_id),[\"wkflow_def_sts\",\"wkflow_def_code\",\"wkflow_def_name\",\"wkflow_def_desc\",\"wkflow_def_state_id_start\"])",
+      ]
+      }
+    ],
+  },
+
+  "wkflow_def_state": {
+    "type": "table",
+    "caption": "wkflow_def_state",
+    "table": "wkflow_def_state",
+    "columns": [
+      {"name":"wkflow_def_state_id", "type":"bigint", "key":true, "identity": true, "null":false},
+      {"name":"wkflow_def_id", "type":"bigint", "foreignkey":{"wkflow_def":"wkflow_def_id"}, "null":false},
+      {"name":"wkflow_def_state_sts", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_def_state_sts":"code_val"}, "null":false, "default": "ACTIVE"},
+      {"name":"wkflow_def_state_type", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_def_state_type":"code_val"}, "null":false, "default": "STANDARD"},
+      {"name":"wkflow_def_state_code", "type":"varchar", "length":32, "null":false},
+      {"name":"wkflow_def_state_name", "type":"varchar", "length":64, "null":false},
+      {"name":"wkflow_def_state_desc", "type":"varchar", "length":1024},
+      {"name":"wkflow_def_state_euser", "type":"varchar", "length":20, "default": { "sql": "%%%%%%jsh.map.current_user%%%%%%" }},
+      {"name":"wkflow_def_state_etstmp", "type":"datetime", "precision":7, "default": { "sql": "%%%%%%jsh.map.timestamp%%%%%%" }},
+      {"name":"wkflow_def_state_muser", "type":"varchar", "length":20},
+      {"name":"wkflow_def_state_mtstmp", "type":"datetime", "precision":7},
+      {"name":"wkflow_def_state_snotes", "type":"varchar", "length":1024}
+    ],
+    "index": [
+      { "columns": ["wkflow_def_id"] },
+      { "columns": ["wkflow_def_state_sts"] },
+    ],
+    "triggers": [
+      { "on": ["update", "insert"], "exec": [
+          "set(wkflow_def_state_mtstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "set(wkflow_def_state_muser,%%%%%%jsh.map.current_user%%%%%%);",
+        ]
+      },
+      { "on": ["insert"], "exec": [
+          "jsharmony.log_audit_insert('wkflow_def_state',inserted(wkflow_def_state_id),wkflow_def_state_id)",
+        ]
+      },
+      { "on": ["update"], "exec": [
+        "jsharmony.log_audit_update_mult('wkflow_def_state',deleted(wkflow_def_state_id),[\"wkflow_def_id\",\"wkflow_def_state_sts\",\"wkflow_def_state_type\",\"wkflow_def_state_code\",\"wkflow_def_state_name\",\"wkflow_def_state_desc\"])",
+      ]
+      },
+      { "on": ["delete"], "exec": [
+        "jsharmony.log_audit_delete_mult('wkflow_def_state',deleted(wkflow_def_state_id),[\"wkflow_def_id\",\"wkflow_def_state_sts\",\"wkflow_def_state_type\",\"wkflow_def_state_code\",\"wkflow_def_state_name\",\"wkflow_def_state_desc\"])",
+      ]
+      }
+    ],
+  },
+
+  "wkflow_def_state_tran": {
+    "type": "table",
+    "caption": "wkflow_def_state_tran",
+    "table": "wkflow_def_state_tran",
+    "columns": [
+      {"name":"wkflow_def_state_tran_id", "type":"bigint", "key":true, "identity": true, "null":false},
+      {"name":"wkflow_def_state_tran_sts", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_def_state_tran_sts":"code_val"}, "null":false, "default": "ACTIVE"},
+      {"name":"wkflow_def_state_tran_seq", "type":"int"},
+      {"name":"wkflow_def_state_tran_cond_type", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_def_state_tran_cond_type":"code_val"}, "null":false},
+      {"name":"wkflow_def_state_tran_cond_param", "type":"varchar", "length":4000},
+      {"name":"wkflow_def_state_id_src", "type":"bigint", "foreignkey":{"wkflow_def_state":"wkflow_def_state_id"}},
+      {"name":"wkflow_def_state_id_dst", "type":"bigint", "foreignkey":{"wkflow_def_state":"wkflow_def_state_id"}, "null":false},
+      {"name":"wkflow_def_state_tran_euser", "type":"varchar", "length":20, "default": { "sql": "%%%%%%jsh.map.current_user%%%%%%" }},
+      {"name":"wkflow_def_state_tran_etstmp", "type":"datetime", "precision":7, "default": { "sql": "%%%%%%jsh.map.timestamp%%%%%%" }},
+      {"name":"wkflow_def_state_tran_muser", "type":"varchar", "length":20},
+      {"name":"wkflow_def_state_tran_mtstmp", "type":"datetime", "precision":7},
+      {"name":"wkflow_def_state_tran_snotes", "type":"varchar", "length":1024}
+    ],
+    "index": [
+      { "columns": ["wkflow_def_state_tran_sts"] },
+      { "columns": ["wkflow_def_state_tran_seq"] },
+      { "columns": ["wkflow_def_state_id_src"] },
+    ],
+    "triggers": [
+      { "on": ["update", "insert"], "exec": [
+          "set(wkflow_def_state_tran_mtstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "set(wkflow_def_state_tran_muser,%%%%%%jsh.map.current_user%%%%%%);",
+        ]
+      },
+      { "on": ["insert"], "exec": [
+          "jsharmony.log_audit_insert('wkflow_def_state_tran',inserted(wkflow_def_state_tran_id),wkflow_def_state_tran_id)",
+        ]
+      },
+      { "on": ["update"], "exec": [
+        "jsharmony.log_audit_update_mult('wkflow_def_state_tran',deleted(wkflow_def_state_tran_id),[\"wkflow_def_state_tran_sts\",\"wkflow_def_state_tran_seq\",\"wkflow_def_state_tran_cond_type\",\"wkflow_def_state_tran_cond_param\",\"wkflow_def_state_id_src\",\"wkflow_def_state_id_dst\"])",
+      ]
+      },
+      { "on": ["delete"], "exec": [
+        "jsharmony.log_audit_delete_mult('wkflow_def_state_tran',deleted(wkflow_def_state_tran_id),[\"wkflow_def_state_tran_sts\",\"wkflow_def_state_tran_seq\",\"wkflow_def_state_tran_cond_type\",\"wkflow_def_state_tran_cond_param\",\"wkflow_def_state_id_src\",\"wkflow_def_state_id_dst\"])",
+      ]
+      }
+    ],
+  },
+
+  "wkflow_def_state_action": {
+    "type": "table",
+    "caption": "wkflow_def_state_action",
+    "table": "wkflow_def_state_action",
+    "columns": [
+      {"name":"wkflow_def_state_action_id", "type":"bigint", "key":true, "identity": true, "null":false},
+      {"name":"wkflow_def_state_id", "type":"bigint", "foreignkey":{"wkflow_def_state":"wkflow_def_state_id"}, "null":false},
+      {"name":"wkflow_def_state_action_sts", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_def_state_action_sts":"code_val"}, "null":false, "default": "ACTIVE"},
+      {"name":"wkflow_def_state_action_type", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_def_state_action_type":"code_val"}, "null":false},
+      {"name":"wkflow_def_state_action_param", "type":"varchar", "length":4000},
+      {"name":"wkflow_def_state_action_euser", "type":"varchar", "length":20, "default": { "sql": "%%%%%%jsh.map.current_user%%%%%%" }},
+      {"name":"wkflow_def_state_action_etstmp", "type":"datetime", "precision":7, "default": { "sql": "%%%%%%jsh.map.timestamp%%%%%%" }},
+      {"name":"wkflow_def_state_action_muser", "type":"varchar", "length":20},
+      {"name":"wkflow_def_state_action_mtstmp", "type":"datetime", "precision":7},
+      {"name":"wkflow_def_state_action_snotes", "type":"varchar", "length":1024}
+    ],
+    "index": [
+      { "columns": ["wkflow_def_state_id"] },
+      { "columns": ["wkflow_def_state_action_sts"] },
+    ],
+    "triggers": [
+      { "on": ["update", "insert"], "exec": [
+          "set(wkflow_def_state_action_mtstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "set(wkflow_def_state_action_muser,%%%%%%jsh.map.current_user%%%%%%);",
+        ]
+      },
+      { "on": ["insert"], "exec": [
+          "jsharmony.log_audit_insert('wkflow_def_state_action',inserted(wkflow_def_state_action_id),wkflow_def_state_action_id)",
+        ]
+      },
+      { "on": ["update"], "exec": [
+        "jsharmony.log_audit_update_mult('wkflow_def_state_action',deleted(wkflow_def_state_action_id),[\"wkflow_def_state_id\",\"wkflow_def_state_action_sts\",\"wkflow_def_state_action_type\",\"wkflow_def_state_action_param\"])",
+      ]
+      },
+      { "on": ["delete"], "exec": [
+        "jsharmony.log_audit_delete_mult('wkflow_def_state_action',deleted(wkflow_def_state_action_id),[\"wkflow_def_state_id\",\"wkflow_def_state_action_sts\",\"wkflow_def_state_action_type\",\"wkflow_def_state_action_param\"])",
+      ]
+      }
+    ],
+  },
+
+  "wkflow": {
+    "type": "table",
+    "caption": "wkflow",
+    "table": "wkflow",
+    "columns": [
+      {"name":"wkflow_id", "type":"bigint", "key":true, "identity": true, "null":false},
+      {"name":"wkflow_sts", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_sts":"code_val"}, "null":false, "default": "ACTIVE"},
+      {"name":"wkflow_sts_user", "type":"varchar", "length":20, "default": { "sql": "%%%%%%jsh.map.current_user%%%%%%" }},
+      {"name":"wkflow_sts_tstmp", "type":"datetime", "precision":7, "default": { "sql": "%%%%%%jsh.map.timestamp%%%%%%" }},
+      {"name":"wkflow_def_id", "type":"bigint", "null":false},
+      {"name":"wkflow_tran_sts", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_tran_sts":"code_val"}, "null":false, "default": "PENDING"},
+      {"name":"wkflow_def_state_id", "type":"bigint", "foreignkey":{"wkflow_def_state":"wkflow_def_state_id"}, "null":false},
+      {"name":"wkflow_def_state_id_user", "type":"varchar", "length":20, "default": { "sql": "%%%%%%jsh.map.current_user%%%%%%" }},
+      {"name":"wkflow_def_state_id_tstmp", "type":"datetime", "precision":7, "default": { "sql": "%%%%%%jsh.map.timestamp%%%%%%" }},
+      {"name":"wkflow_euser", "type":"varchar", "length":20, "default": { "sql": "%%%%%%jsh.map.current_user%%%%%%" }},
+      {"name":"wkflow_etstmp", "type":"datetime", "precision":7, "default": { "sql": "%%%%%%jsh.map.timestamp%%%%%%" }},
+      {"name":"wkflow_muser", "type":"varchar", "length":20},
+      {"name":"wkflow_mtstmp", "type":"datetime", "precision":7},
+      {"name":"wkflow_snotes", "type":"varchar", "length":1024}
+    ],
+    "index": [
+      { "columns": ["wkflow_sts"] },
+      { "columns": ["wkflow_tran_sts"] },
+      { "columns": ["wkflow_def_id"] },
+      { "columns": ["wkflow_def_state_id"] },
+    ],
+    "triggers": [
+      { "on": ["insert"], "exec": [
+          "set(wkflow_mtstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "set(wkflow_muser,%%%%%%jsh.map.current_user%%%%%%);",
+        ]
+      },
+      { "on": ["update"], "exec": [
+          ["insert into wkflow.wkflow_state(wkflow_id, wkflow_def_state_id, wkflow_state_start_tstmp, wkflow_state_end_tstmp)",
+           "  select deleted(wkflow_id), deleted(wkflow_def_state_id), deleted(wkflow_def_state_id_tstmp), %%%%%%jsh.map.timestamp%%%%%%",
+           "    where inserted(wkflow_def_state_id) <> deleted(wkflow_def_state_id)"
+          ],
+          "set(wkflow_mtstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "set(wkflow_muser,%%%%%%jsh.map.current_user%%%%%%);",
+          "setif(update(wkflow_sts),wkflow_sts_tstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "setif(update(wkflow_sts),wkflow_sts_user,%%%%%%jsh.map.current_user%%%%%%);",
+          "setif(update(wkflow_def_state_id),wkflow_def_state_id_tstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "setif(update(wkflow_def_state_id),wkflow_def_state_id_user,%%%%%%jsh.map.current_user%%%%%%);",
+        ]
+      },
+      { "on": ["insert"], "exec": [
+          "jsharmony.log_audit_insert('wkflow',inserted(wkflow_id),wkflow_id)",
+        ]
+      },
+      { "on": ["update"], "exec": [
+        "jsharmony.log_audit_update_mult('wkflow',deleted(wkflow_id),[\"wkflow_def_id\",\"wkflow_tran_sts\",\"wkflow_def_state_id\",\"wkflow_custom_flag\",\"wkflow_custom_note\"])",
+      ]
+      },
+      { "on": ["delete"], "exec": [
+        "jsharmony.log_audit_delete_mult('wkflow',deleted(wkflow_id),[\"wkflow_def_id\",\"wkflow_tran_sts\",\"wkflow_def_state_id\",\"wkflow_custom_flag\",\"wkflow_custom_note\"])",
+      ]
+      }
+    ],
+  },
+
+  "wkflow_var": {
+    "type": "table",
+    "caption": "wkflow_var",
+    "table": "wkflow_var",
+    "columns": [
+      {"name":"wkflow_var_id", "type":"bigint", "key":true, "identity": true, "null":false},
+      {"name":"wkflow_id", "type":"bigint", "foreignkey":{"wkflow":"wkflow_id"}, "null":false},
+      {"name":"wkflow_var_name", "type":"varchar", "length":32, "foreignkey":{"code_wkflow_var_name":"code_val"}, "null":false},
+      {"name":"wkflow_var_val", "type":"varchar", "length":255},
+      {"name":"wkflow_var_euser", "type":"varchar", "length":20, "default": { "sql": "%%%%%%jsh.map.current_user%%%%%%" }},
+      {"name":"wkflow_var_etstmp", "type":"datetime", "precision":7, "default": { "sql": "%%%%%%jsh.map.timestamp%%%%%%" }},
+      {"name":"wkflow_var_muser", "type":"varchar", "length":20},
+      {"name":"wkflow_var_mtstmp", "type":"datetime", "precision":7},
+      {"name":"wkflow_var_snotes", "type":"varchar", "length":1024}
+    ],
+    "index": [
+      { "columns": ["wkflow_id"] },
+      { "columns": ["wkflow_var_name"] },
+      { "columns": ["wkflow_var_val"] },
+    ],
+    "triggers": [
+      { "on": ["update", "insert"], "exec": [
+          "set(wkflow_var_mtstmp,%%%%%%jsh.map.timestamp%%%%%%);",
+          "set(wkflow_var_muser,%%%%%%jsh.map.current_user%%%%%%);",
+        ]
+      },
+      { "on": ["insert"], "exec": [
+          "jsharmony.log_audit_insert('wkflow_var',inserted(wkflow_var_id),wkflow_var_id)",
+        ]
+      },
+      { "on": ["update"], "exec": [
+        "jsharmony.log_audit_update_mult('wkflow_var',deleted(wkflow_var_id),[\"wkflow_id\",\"wkflow_var_name\",\"wkflow_var_val\"])",
+      ]
+      },
+      { "on": ["delete"], "exec": [
+        "jsharmony.log_audit_delete_mult('wkflow_var',deleted(wkflow_var_id),[\"wkflow_id\",\"wkflow_var_name\",\"wkflow_var_val\"])",
+      ]
+      }
+    ],
+  },
+
+  "wkflow_state":{
+    "type": "table",
+    "caption": "wkflow_state",
+    "table": "wkflow_state",
+    "columns": [
+      {"name":"wkflow_state_id", "type":"bigint", "key":true, "identity": true, "null":false},
+      {"name":"wkflow_id", "type":"bigint", "foreignkey":{"wkflow":"wkflow_id"}, "null":false},
+      {"name":"wkflow_def_state_id", "type":"bigint", "foreignkey":{"wkflow_def_state":"wkflow_def_state_id"}, "null":false},
+      {"name":"wkflow_state_start_tstmp", "type":"datetime", "precision":7, "null":false},
+      {"name":"wkflow_state_end_tstmp", "type":"datetime", "precision":7, "null":false},
+      {"name":"wkflow_state_snotes", "type":"varchar", "length":1024}
+    ],
+  },
+}

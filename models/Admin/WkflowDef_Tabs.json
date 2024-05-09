@@ -1,0 +1,20 @@
+{
+  "WkflowDef_Tabs":{
+    "layout": "form", 
+    "title": "Workflow Definition: <#=data.wkflow_def_name#>",
+    "table": "wkflow_def",
+    "actions": "B",
+    "caption": [ 0, "Workflow Definition", "Workflow Definitions" ],
+    "tabpos":"bottom",
+    "tabs":[
+      {"name":"General","target":"WkflowDef"},
+      {"name":"States","target":"WkflowDef_State_Listing"},
+      {"name":"Start Transitions","target":"WkflowDef_Tran_Start_Listing"},
+    ],
+    "popup":[1300,700],
+    "fields":[
+      {"name":"wkflow_def_id","type":"bigint","key":true,"control":"hidden"},
+      {"name":"wkflow_def_name","control":"hidden"},
+    ]
+  },
+}

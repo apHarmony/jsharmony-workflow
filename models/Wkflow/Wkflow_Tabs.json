@@ -1,0 +1,18 @@
+{
+  "Wkflow_Tabs":{
+    "layout": "form", 
+    "title": "Workflow: <#=data.wkflow_def_name#>",
+    "table": "wkflow",
+    "actions": "B",
+    "caption": [ 0, "Workflow", "Workflows" ],
+    "tabpos":"bottom",
+    "tabs":[
+      {"name":"General","target":"Wkflow"},
+    ],
+    "popup":[1300,700],
+    "fields":[
+      {"name":"wkflow_id","type":"bigint","key":true,"control":"hidden"},
+      {"name":"wkflow_def_name","control":"hidden","sqlselect":"(select wkflow_def_name from {schema}.wkflow_def where wkflow_def.wkflow_def_id = wkflow.wkflow_def_id)"},
+    ]
+  },
+}

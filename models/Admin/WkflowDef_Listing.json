@@ -1,0 +1,26 @@
+{
+  "WkflowDef_Listing":{
+    "layout": "grid",
+    "title": "Workflow Definitions",
+    "table": "wkflow_def",
+    "menu": "Admin/WkflowDef_Listing",
+    "caption": ["","Workflow Definition","Workflow Definitions"],
+    "actions": "B",
+    "sort": ["^wkflow_def_id"],
+    "buttons":[
+      { "name":"addWkflowDef", "link":"insert:WkflowDef","icon":"add","text":"Add Workflow Definition" },
+    ],
+    "fields": [
+      {"name":"wkflow_def_id", "caption":"ID"},
+      {"name":"wkflow_def_name", "caption":"Workflow Name", "link": "update:WkflowDef_Tabs"},
+      {"name":"wkflow_def_code", "caption":"Code", "link": "update:WkflowDef_Tabs"},
+      {"name":"wkflow_def_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_def_sts" }},
+      {"name":"wkflow_def_desc", "caption":"Description"},
+      {"name":"wkflow_def_etstmp", "caption":"Entered","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_euser", "caption":"Entered By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_euser)"},
+      {"name":"wkflow_def_mtstmp", "caption":"Modified","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_muser", "caption":"Modified By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_muser)"},
+      {"name":"wkflow_def_snotes", "caption":"System Notes"},
+    ]
+  }
+}

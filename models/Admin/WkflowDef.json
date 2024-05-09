@@ -1,0 +1,25 @@
+{
+  "WkflowDef": {
+    "layout":"form",
+    "table":"wkflow_def",
+    "title":"Workflow Definition",
+    "actions":"BIUD",
+    "caption": ["","Workflow Definition","Workflow Definitions"],
+    "onecolumn":true,
+    "popup":[1300,700],
+    "oninsert": "XExt.navTo(jsh._BASEURL+xmodel.namespace+'WkflowDef_Tabs?action=update&wkflow_def_id='+urlkeys.wkflow_def_id); jsh.XPage.RefreshParent(); return false;",
+    "fields": [
+      {"name":"wkflow_def_id", "caption":"ID"},
+      {"name":"wkflow_def_name", "caption":"Workflow Name"},
+      {"name":"wkflow_def_code", "caption":"Code"},
+      {"name":"wkflow_def_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_def_sts" }, "default": "ACTIVE"},
+      {"name":"wkflow_def_desc", "caption":"Description", "control": "textbox_VL"},
+      {"name":"wkflow_def_state_id_start", "caption":"Start State", "lov": { "sql": "select wkflow_def_state_id code_val, wkflow_def_state_name code_txt from {schema}.wkflow_def_state where wkflow_def_id=@wkflow_def_id and wkflow_def_state_sts='ACTIVE' order by wkflow_def_state_name" }},
+      {"name":"wkflow_def_etstmp", "caption":"Entered", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_euser", "caption":"Entered By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_euser)"},
+      {"name":"wkflow_def_mtstmp", "caption":"Modified", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_muser", "caption":"Modified By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_muser)"},
+      {"name":"wkflow_def_snotes", "caption":"System Notes", "control": "textbox_VL"},
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "TaskDef": {
+    "layout":"form",
+    "table":"task_def",
+    "title":"Task Definition",
+    "actions":"BIUD",
+    "caption": ["","Task Definition","Task Definitions"],
+    "onecolumn":true,
+    "popup":[1300,700],
+    "oninsert": "XExt.navTo(jsh._BASEURL+xmodel.namespace+'TaskDef_Tabs?action=update&task_def_id='+urlkeys.task_def_id); jsh.XPage.RefreshParent(); return false;",
+    "fields": [
+      {"name":"task_def_id", "caption":"ID"},
+      {"name":"task_def_name", "caption":"Task Name"},
+      {"name":"task_def_code", "caption":"Code"},
+      {"name":"task_def_sts", "caption":"Status", "lov": { "{{code_sys}}": "task_def_sts" }, "default": "ACTIVE"},
+      {"name":"task_def_dur", "caption":"Duration", "control": "textbox_S"},
+      {"name":"task_def_dur_type", "caption":"Type", "lov": { "{{code_sys}}": "task_def_dur_type" }, "nl": false},
+      {"name":"task_def_desc", "caption":"Description", "control": "textbox_VL"},
+      {"name":"task_def_etstmp", "caption":"Entered", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"task_def_euser", "caption":"Entered By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(task_def_euser)"},
+      {"name":"task_def_mtstmp", "caption":"Modified", "actions": "B","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"task_def_muser", "caption":"Modified By", "actions": "B", "sqlselect": "jsharmony.my_db_user_fmt(task_def_muser)"},
+      {"name":"task_def_snotes", "caption":"System Notes", "control": "textbox_VL"},
+    ]
+  }
+}

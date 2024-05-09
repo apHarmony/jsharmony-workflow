@@ -1,0 +1,28 @@
+{
+  "TaskDef_Listing":{
+    "layout": "grid",
+    "title": "Task Definitions",
+    "table": "task_def",
+    "menu": "Admin/TaskDef_Listing",
+    "caption": ["","Task Definition","Task Definitions"],
+    "actions": "B",
+    "sort": ["^task_def_id"],
+    "buttons":[
+      { "name":"addTaskDef", "link":"insert:TaskDef","icon":"add","text":"Add Task Definition" },
+    ],
+    "fields": [
+      {"name":"task_def_id", "caption":"ID"},
+      {"name":"task_def_name", "caption":"Task Name", "link": "update:TaskDef_Tabs"},
+      {"name":"task_def_code", "caption":"Code", "link": "update:TaskDef_Tabs"},
+      {"name":"task_def_sts", "caption":"Status", "lov": { "{{code_sys}}": "task_def_sts" }},
+      {"name":"task_def_desc", "caption":"Description"},
+      {"name":"task_def_dur", "caption":"Duration"},
+      {"name":"task_def_dur_type", "caption":"Duration Type", "lov": { "{{code_sys}}": "task_def_dur_type" }},
+      {"name":"task_def_etstmp", "caption":"Entered","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"task_def_euser", "caption":"Entered By", "sqlselect": "jsharmony.my_db_user_fmt(task_def_euser)"},
+      {"name":"task_def_mtstmp", "caption":"Modified","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"task_def_muser", "caption":"Modified By", "sqlselect": "jsharmony.my_db_user_fmt(task_def_muser)"},
+      {"name":"task_def_snotes", "caption":"System Notes"},
+    ]
+  }
+}

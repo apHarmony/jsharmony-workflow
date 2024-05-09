@@ -1,0 +1,45 @@
+{
+  "WkflowDef_State_Listing":{
+    "layout": "grid",
+    "title": "States",
+    "table": "wkflow_def_state",
+    "caption": ["","State","States"],
+    "actions": "B",
+    "buttons":[
+      { "name":"addWkflowDefState", "link":"insert:WkflowDef_State","icon":"add","text":"Add State" },
+    ],
+    "sqlselect": [
+      "with",
+      "  xtran as (",
+      "    select wkflow_def_state_id xstate_id, 0 xlevel",
+      "      from {schema}.wkflow_def_state",
+      "        where not exists(select * from {schema}.wkflow_def_state_tran where wkflow_def_state_id_dst=wkflow_def_state.wkflow_def_state_id)",
+      "    union all",
+      "    select wkflow_def_state_id_dst xstate_id, xlevel + 1 xlevel",
+      "      from {schema}.wkflow_def_state_tran",
+      "        inner join xtran on xtran.xstate_id = wkflow_def_state_id_src",
+      "  ),",
+      "  xtran_sort as (select xstate_id,min(xlevel) xlevel from xtran group by xstate_id)",
+      "select %%%SQLFIELDS%%%",
+      "  from {schema}.wkflow_def_state",
+      "    left outer join xtran_sort on xtran_sort.xstate_id = wkflow_def_state.wkflow_def_state_id",
+      "%%%SQLSUFFIX%%%",
+    ],
+    "sort": ["^wkflow_def_state_seq","^wkflow_def_state_name","^wkflow_def_state_id"],
+    "fields": [
+      {"name":"wkflow_def_id", "caption":"Workflow Definition ID", "control": "hidden", "foreignkey": true},
+      {"name":"wkflow_def_state_id", "caption":"ID"},
+      {"name":"wkflow_def_state_name", "caption":"State Name", "link": "update:WkflowDef_State_Tabs"},
+      {"name":"wkflow_def_state_code", "caption":"Code", "link": "update:WkflowDef_State_Tabs"},
+      {"name":"wkflow_def_state_type", "caption":"Type", "lov": { "{{code_sys}}": "wkflow_def_state_type" }},
+      {"name":"wkflow_def_state_sts", "caption":"Status", "lov": { "{{code_sys}}": "wkflow_def_state_sts" }},
+      {"name":"wkflow_def_state_desc", "caption":"Description"},
+      {"name":"wkflow_def_state_seq", "caption":"Seq", "sqlselect": "isnull(xlevel,0)"},
+      {"name":"wkflow_def_state_etstmp", "caption":"Entered","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_euser", "caption":"Entered By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_euser)"},
+      {"name":"wkflow_def_state_mtstmp", "caption":"Modified","format":["date","MM/DD/YYYY h:mm A"]},
+      {"name":"wkflow_def_state_muser", "caption":"Modified By", "sqlselect": "jsharmony.my_db_user_fmt(wkflow_def_state_muser)"},
+      {"name":"wkflow_def_state_snotes", "caption":"System Notes"},
+    ]
+  }
+}
