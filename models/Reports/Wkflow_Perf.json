@@ -1,0 +1,54 @@
+{
+  "Wkflow_Perf": {
+    "layout": "report",
+    "title": "Workflow Performance",
+    "actions": "B",
+    "menu":"Reports/Wkflow_Perf",
+    "description": "Workflow Performance Report",
+    "pagesettings": {"orientation": "portrait"},
+    "onecolumn": true,
+    "fields": [
+      {"name": "dt_from","caption": "Date From","type": "date","control": "date_mmddyy","validate": [ "Required" ],"default": "js:moment().add(-1, 'month').format()"},
+      {"name": "dt_to","caption": "To","type": "date","control": "date_mmddyy", "validate": [ "Required" ],"default": "js:moment().format()","captionstyle":"width:30px;text-align:right;", "nl": false},
+      {"name":"wkflow_def_code","caption": "Workflow","type":"varchar","length":16,"actions":"B","nl":1,"control":"dropdown_S",
+        "lov": {"sql":"select wkflow_def_code codeval,wkflow_def_name codetxt from wkflow.wkflow_def where 1=1 order by wkflow_def_name ","blank":"(All)"} },
+      {"control":"button","value":"Run Report","controlstyle": "padding:3px 8px;","nl": true,"onclick": "jsh.XPage.RunReport();","caption":""},
+      //{"control":"button","value":"Preview Report","controlstyle": "padding:3px 8px;","nl": true,"onclick": "jsh.XPage.RunReportHTML();","caption":""},
+    ],
+    "reportdata" : {
+      "global":{
+        "sql":[
+          "select $iif(@wkflow_def_code is null,'(All)',(select wkflow_def_name from wkflow.wkflow_def where wkflow_def_code = @wkflow_def_code)) wkflow_def_name ",
+          "  from jsharmony.single",
+          "  where 1=1 %%%DATALOCKS%%% "
+        ]
+      },
+      "perf_data":{
+        "sql":[
+          "select wkflow_def_name, ",
+          "       min(duration_days) duration_days_min, ",
+          "       max(duration_days) duration_days_max, ",
+          "       cast(round(avg(duration_days*1.0),2) as decimal(9,2)) duration_days_avg ",
+          "from ( ",
+          "select wkflow.wkflow_id, ",
+          "       wkflow.wkflow_sts, ",
+          "       wkflow_sts_tstmp, ",
+          "       wkflow.wkflow_etstmp, ",
+          "       $iif(datediff(day, cast(wkflow.wkflow_etstmp as date),cast(wkflow.wkflow_sts_tstmp as date))=0,1, ",
+          "            datediff(day, cast(wkflow.wkflow_etstmp as date),cast(wkflow.wkflow_sts_tstmp as date))) duration_days, ",
+          "       wkflow.wkflow_def_id, ",
+          "       wkflow_def.wkflow_def_code, ", 
+          "       wkflow_def.wkflow_def_name ", 
+          "  from wkflow.wkflow ",
+          " inner join wkflow.wkflow_def on wkflow_def.wkflow_def_id = wkflow.wkflow_def_id ",
+          " where wkflow.wkflow_def_id = isnull((select wkflow_def_id from wkflow.wkflow_def where wkflow_def.wkflow_def_code=@wkflow_def_code),wkflow.wkflow_def_id) ", 
+          "   and wkflow.wkflow_sts = 'COMPLETE' ",
+          "   and isnull(@dt_from, wkflow.wkflow_etstmp) <= wkflow.wkflow_etstmp ",
+          "   and isnull(@dt_to, wkflow.wkflow_etstmp) >= wkflow.wkflow_etstmp ",
+          "   ) x group by wkflow_def_name ",
+          " order by wkflow_def_name "
+        ]
+      }
+    }
+  }
+}

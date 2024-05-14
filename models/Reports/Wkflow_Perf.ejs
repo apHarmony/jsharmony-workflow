@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title></title>
+<style type="text/css">
+* {
+  overflow:visible !important;
+  font-family: 'Roboto'; /*, arial, helvetica, sans-serif;*/
+}
+td { vertical-align:top; font-size:19px; font-weight:bold; padding: 5px 10px 5px 10px; }
+body { 
+  width:950px;
+}
+.pagebreak {
+  display: block;
+  page-break-before: always;
+}
+</style>
+</head>
+<body>
+<h3 align='center' style="font-size:14px;font-family:'Roboto';">
+  <div align='center' style='padding-top:5px;font-size:20px;'>WORKFLOW PERFORMANCE REPORT</div>
+</h3>
+
+<div style="clear:both;padding-bottom:20px;"></div>
+
+<!-- For Each global Record -->
+<% _.each(data.global,function(global,global_i){  %>
+
+<table width="100%" cellspacing="0" cellpadding="2" style="padding-top:0px;">
+  <tbody>
+    <tr class="C1_BODY_NOLINE" style="vertical-align:top">
+      <td align="right">Period:</td>
+      <td align="left" ><%=moment.utc(params.dt_from).format('MM/DD/YYYY')%> to <%=moment.utc(params.dt_to).format('MM/DD/YYYY')%></td>
+      <td align="right">Workflow:</td>
+      <td align="left" ><%=global.wkflow_def_name%></td>
+    </tr>
+  </tbody>
+</table>
+
+<% }); %><!-- End global Loop -->
+
+<div style="clear:both;padding-bottom:35px;"></div>
+
+<table width="100%" cellspacing="0" cellpadding="2" border="1" style="border-top:0;border-left:0;">
+  <thead>
+    <tr class="C1_HEAD">
+      <td style="border-left:0;border-top:0;"></td>
+      <td colspan="3" align="center">Completion Time (Days)</td>
+    </tr>
+    <tr class="C1_HEAD">
+      <td align="left">Workflow</td>
+      <td align="right">Min</td>
+      <td align="right">Avg</td>
+      <td align="right">Max</td>
+    </tr>
+  </thead>
+  <tbody>
+  <!-- For Each perf_data Record -->
+  <% _.each(data.perf_data,function(perf_data,perf_data_i){ %>
+    <tr class="C1_BODY" style="vertical-align:top">
+      <td align="left">{{perf_data.wkflow_def_name}}</td>
+      <td align="right" >{{perf_data.duration_days_min}}</td>
+      <td align="right" ><% if(perf_data.duration_days_avg){ %><%=perf_data.duration_days_avg.toFixed(2)%><% } %></td>
+      <td align="right" >{{perf_data.duration_days_max}}</td>
+    </tr>
+  <% }); %><!-- End perf_data Loop -->
+  </tbody>
+</table>
+<br/>
+<!-- commented out
+-->
+
+</body>
+</html>

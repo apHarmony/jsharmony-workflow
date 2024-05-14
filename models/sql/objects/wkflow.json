@@ -316,11 +316,11 @@
         ]
       },
       { "on": ["update"], "exec": [
-        "jsharmony.log_audit_update_mult('wkflow',deleted(wkflow_id),[\"wkflow_def_id\",\"wkflow_tran_sts\",\"wkflow_def_state_id\",\"wkflow_custom_flag\",\"wkflow_custom_note\"])",
+        "jsharmony.log_audit_update_mult('wkflow',deleted(wkflow_id),[\"wkflow_def_id\",\"wkflow_sts\",\"wkflow_tran_sts\",\"wkflow_def_state_id\",\"wkflow_custom_flag\",\"wkflow_custom_note\"])",
       ]
       },
       { "on": ["delete"], "exec": [
-        "jsharmony.log_audit_delete_mult('wkflow',deleted(wkflow_id),[\"wkflow_def_id\",\"wkflow_tran_sts\",\"wkflow_def_state_id\",\"wkflow_custom_flag\",\"wkflow_custom_note\"])",
+        "jsharmony.log_audit_delete_mult('wkflow',deleted(wkflow_id),[\"wkflow_def_id\",\"wkflow_sts\",\"wkflow_tran_sts\",\"wkflow_def_state_id\",\"wkflow_custom_flag\",\"wkflow_custom_note\"])",
       ]
       }
     ],

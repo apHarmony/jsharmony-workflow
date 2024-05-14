@@ -1,0 +1,60 @@
+{
+  "Task_Perf": {
+    "layout": "report",
+    "title": "Task Performance",
+    "actions": "B",
+    "menu":"Reports/Task_Perf",
+    "description": "Task Performance Report",
+    "pagesettings": {"orientation": "portrait"},
+    "onecolumn": true,
+    "fields": [
+      {"name": "dt_from","caption": "Date From","type": "date","control": "date_mmddyy","validate": [ "Required" ],"default": "js:moment().add(-1, 'month').format()"},
+      {"name": "dt_to","caption": "To","type": "date","control": "date_mmddyy", "validate": [ "Required" ],"default": "js:moment().format()","captionstyle":"width:30px;text-align:right;", "nl": false},
+      {"name":"wkflow_def_code","caption": "Workflow","type":"varchar","length":16,"actions":"B","nl":1,"control":"dropdown_S",
+        "lov": {"sql":"select wkflow_def_code codeval,wkflow_def_name codetxt from wkflow.wkflow_def where 1=1 order by wkflow_def_name ","blank":"(All)"} },
+      {"control":"button","value":"Run Report","controlstyle": "padding:3px 8px;","nl": true,"onclick": "jsh.XPage.RunReport();","caption":""},
+      //{"control":"button","value":"Preview Report","controlstyle": "padding:3px 8px;","nl": true,"onclick": "jsh.XPage.RunReportHTML();","caption":""},
+    ],
+    "reportdata" : {
+      "global":{
+        "sql":[
+          "select $iif(@wkflow_def_code is null,'(All)',(select wkflow_def_name from wkflow.wkflow_def where wkflow_def_code = @wkflow_def_code)) wkflow_def_name ",
+          "  from jsharmony.single",
+          "  where 1=1 %%%DATALOCKS%%% "
+        ]
+      },
+      "perf_data":{
+        "sql":[
+          "select wkflow_def_name, ",
+          "       task_def_name, ",
+          "       min(duration_days) duration_days_min, ",
+          "       max(duration_days) duration_days_max, ",
+          "       cast(round(avg(duration_days*1.0),2) as decimal(9,2)) duration_days_avg ",
+          "from ( ",
+          "select wkflow.wkflow_id, ",
+          "       task.task_sts, ",
+          "       task_sts_tstmp, ",
+          "       task.task_etstmp, ",
+          "       $iif(datediff(day, cast(task.task_etstmp as date),cast(task.task_sts_tstmp as date))=0,1, ",
+          "            datediff(day, cast(task.task_etstmp as date),cast(task.task_sts_tstmp as date))) duration_days, ",
+          "       wkflow.wkflow_def_id, ",
+          "       wkflow_def.wkflow_def_code, ", 
+          "       wkflow_def.wkflow_def_name, ", 
+          "       task.task_def_id, ",
+          "       task_def.task_def_code, ", 
+          "       task_def.task_def_name ", 
+          "  from wkflow.task ",
+          " inner join wkflow.wkflow on wkflow.wkflow_id = task.wkflow_id ",
+          " inner join wkflow.wkflow_def on wkflow_def.wkflow_def_id = wkflow.wkflow_def_id ",
+          " inner join wkflow.task_def on task_def.task_def_id = task.task_def_id ",
+          " where wkflow.wkflow_def_id = isnull((select wkflow_def_id from wkflow.wkflow_def where wkflow_def.wkflow_def_code=@wkflow_def_code),wkflow.wkflow_def_id) ", 
+          "   and task.task_sts = 'COMPLETE' ",
+          "   and isnull(@dt_from, task.task_etstmp) <= task.task_etstmp ",
+          "   and isnull(@dt_to, task.task_etstmp) >= task.task_etstmp ",
+          "   ) x group by wkflow_def_name, task_def_name ",
+          " order by wkflow_def_name, task_def_name "
+        ]
+      }
+    }
+  }
+}

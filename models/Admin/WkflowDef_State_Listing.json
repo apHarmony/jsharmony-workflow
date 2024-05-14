@@ -13,7 +13,7 @@
       "  xtran as (",
       "    select wkflow_def_state_id xstate_id, 0 xlevel",
       "      from {schema}.wkflow_def_state",
-      "        where not exists(select * from {schema}.wkflow_def_state_tran where wkflow_def_state_id_dst=wkflow_def_state.wkflow_def_state_id)",
+      "        where not exists(select * from {schema}.wkflow_def_state_tran where wkflow_def_state_id_dst=wkflow_def_state.wkflow_def_state_id and wkflow_def_state_id_src is not null)",
       "    union all",
       "    select wkflow_def_state_id_dst xstate_id, xlevel + 1 xlevel",
       "      from {schema}.wkflow_def_state_tran",

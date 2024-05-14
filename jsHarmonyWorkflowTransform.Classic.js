@@ -37,6 +37,7 @@ transform.tables = {
   'code_sys': 'ucod_h',
   'sys_func': 'sf',
   'sys_user_func': 'spef',
+  'single': 'dual',
 };
 
 transform.fields = {

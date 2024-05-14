@@ -37,6 +37,7 @@ function jsHarmonyWorkflowTransform(module){
     'code_sys': 'code',
     'sys_func': 'sys_func',
     'sys_user_func': 'sys_user_func',
+    'single': 'single',
   };
 
   this.fields = {
