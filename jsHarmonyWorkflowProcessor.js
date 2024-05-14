@@ -183,7 +183,7 @@ module.exports = exports = function jsHarmonyWorkflowProcessor(module){
             row.wkflow_def_state_type = (row.wkflow_def_state_type||'').toString().toUpperCase();
             if(row.wkflow_def_sts!='ACTIVE'){ hasInvalidWorkflows = true; return; }
             if(row.wkflow_def_state_sts!='ACTIVE'){ hasInvalidWorkflows = true; return; }
-            if((row.wkflow_def_state_type=='TERIMNAL') && (row.wkflow_tran_sts=='COMPLETE')){ hasTerminalWorkflows = true; return; }
+            if((row.wkflow_def_state_type=='TERMINAL') && (row.wkflow_tran_sts=='COMPLETE')){ hasTerminalWorkflows = true; return; }
             if(!wkflows[row.wkflow_id]){
               wkflows[row.wkflow_id] = _.extend(row, {
                 tran: {},
@@ -211,7 +211,7 @@ module.exports = exports = function jsHarmonyWorkflowProcessor(module){
           for(var i=0;i<rs_wkflow_var.length;i++){
             let row = rs_wkflow_var[i];
             let wkflow = wkflows[row.wkflow_id];
-            if(!wkflow) return process_cb(new Error('Workflow '+row.wkflow_id+' missing from recordset'));
+            if(!wkflow) continue;
             var wkflow_var_name_ucase = (row.wkflow_var_name||'').toString().toUpperCase();
             wkflow.var[wkflow_var_name_ucase] = row.wkflow_var_val;
           }
@@ -240,7 +240,7 @@ module.exports = exports = function jsHarmonyWorkflowProcessor(module){
           for(let i=0;i<rs_wkflow_tran.length;i++){
             let row = rs_wkflow_tran[i];
             let wkflow = wkflows[row.wkflow_id];
-            if(!wkflow) return process_cb(new Error('Workflow '+row.wkflow_id+' missing from recordset'));
+            if(!wkflow) continue;
             if(row.wkflow_def_state_id_dst){
               if(!wkflow.tran[row.wkflow_def_state_id_dst]){
                 wkflow.tran[row.wkflow_def_state_id_dst] = [];
@@ -299,7 +299,7 @@ module.exports = exports = function jsHarmonyWorkflowProcessor(module){
           '      from {schema}.wkflow w',
           '        left outer join {schema}.wkflow_def wd on wd.wkflow_def_id = w.wkflow_def_id',
           '        left outer join {schema}.wkflow_def_state wsd on wsd.wkflow_def_state_id = w.wkflow_def_state_id',
-          "    where wkflow_sts='ACTIVE' and wkflow_state_def_type = 'TERMINAL'",
+          "    where wkflow_sts='ACTIVE' and wkflow_def_state_type = 'TERMINAL'",
           '  )',
         ].join(' ');
         appsrv.ExecCommand('wkflow', module.replaceSchema(sql), [], {}, function (err) {
