@@ -41,7 +41,7 @@
           " inner join wkflow.wkflow_def_state on wkflow_def_state.wkflow_def_state_id = wkflow_state.wkflow_def_state_id ",
           " where wkflow.wkflow_def_id = isnull((select wkflow_def_id from wkflow.wkflow_def where wkflow_def.wkflow_def_code=@wkflow_def_code),wkflow.wkflow_def_id) ", 
           "   and isnull(@dt_from, wkflow_state.wkflow_state_start_tstmp) <= wkflow_state.wkflow_state_start_tstmp ",
-          "   and isnull(@dt_to, wkflow_state.wkflow_state_start_tstmp) >= wkflow_state.wkflow_state_start_tstmp ",
+          "   and isnull($addDays(@dt_to,1), wkflow_state.wkflow_state_start_tstmp) > wkflow_state.wkflow_state_start_tstmp ",
           " group by wkflow_state.wkflow_id, wkflow_def.wkflow_def_name, wkflow_def_state.wkflow_def_state_name ",
           "   ) x group by wkflow_def_name, wkflow_def_state_name ", 
           "  order by wkflow_def_name, wkflow_def_state_name "

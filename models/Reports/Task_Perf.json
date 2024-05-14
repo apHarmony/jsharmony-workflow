@@ -50,7 +50,7 @@
           " where wkflow.wkflow_def_id = isnull((select wkflow_def_id from wkflow.wkflow_def where wkflow_def.wkflow_def_code=@wkflow_def_code),wkflow.wkflow_def_id) ", 
           "   and task.task_sts = 'COMPLETE' ",
           "   and isnull(@dt_from, task.task_etstmp) <= task.task_etstmp ",
-          "   and isnull(@dt_to, task.task_etstmp) >= task.task_etstmp ",
+          "   and isnull($addDays(@dt_to,1), task.task_etstmp) > task.task_etstmp ",
           "   ) x group by wkflow_def_name, task_def_name ",
           " order by wkflow_def_name, task_def_name "
         ]
