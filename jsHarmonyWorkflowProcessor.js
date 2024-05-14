@@ -210,7 +210,7 @@ module.exports = exports = function jsHarmonyWorkflowProcessor(module){
           //Process workflow variables
           for(var i=0;i<rs_wkflow_var.length;i++){
             let row = rs_wkflow_var[i];
-            var wkflow = wkflows[row.wkflow_id];
+            let wkflow = wkflows[row.wkflow_id];
             if(!wkflow) return process_cb(new Error('Workflow '+row.wkflow_id+' missing from recordset'));
             var wkflow_var_name_ucase = (row.wkflow_var_name||'').toString().toUpperCase();
             wkflow.var[wkflow_var_name_ucase] = row.wkflow_var_val;
@@ -239,7 +239,7 @@ module.exports = exports = function jsHarmonyWorkflowProcessor(module){
           //Process state transitions
           for(let i=0;i<rs_wkflow_tran.length;i++){
             let row = rs_wkflow_tran[i];
-            var wkflow = wkflows[row.wkflow_id];
+            let wkflow = wkflows[row.wkflow_id];
             if(!wkflow) return process_cb(new Error('Workflow '+row.wkflow_id+' missing from recordset'));
             if(row.wkflow_def_state_id_dst){
               if(!wkflow.tran[row.wkflow_def_state_id_dst]){
