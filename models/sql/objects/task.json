@@ -132,7 +132,7 @@
     ],
     "index": [
       { "columns": ["task_def_id"] },
-      { "columns": ["wkflow_id"] },
+      { "columns": ["sys_func_name"] },
     ],
     "triggers": [
       { "on": ["insert"], "exec": [
