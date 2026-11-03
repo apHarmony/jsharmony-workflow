@@ -299,7 +299,7 @@
         ]
       },
       { "on": ["update"], "exec": [
-          ["insert into wkflow.wkflow_state(wkflow_id, wkflow_def_state_id, wkflow_state_start_tstmp, wkflow_state_end_tstmp)",
+          ["insert into {schema}.wkflow_state(wkflow_id, wkflow_def_state_id, wkflow_state_start_tstmp, wkflow_state_end_tstmp)",
            "  select deleted(wkflow_id), deleted(wkflow_def_state_id), deleted(wkflow_def_state_id_tstmp), %%%%%%jsh.map.timestamp%%%%%%",
            "    where inserted(wkflow_def_state_id) <> deleted(wkflow_def_state_id)"
           ],

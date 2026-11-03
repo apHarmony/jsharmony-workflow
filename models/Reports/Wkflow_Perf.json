@@ -11,14 +11,14 @@
       {"name": "dt_from","caption": "Date From","type": "date","control": "date_mmddyy","validate": [ "Required" ],"default": "js:moment().add(-1, 'month').format()"},
       {"name": "dt_to","caption": "To","type": "date","control": "date_mmddyy", "validate": [ "Required" ],"default": "js:moment().format()","captionstyle":"width:30px;text-align:right;", "nl": false},
       {"name":"wkflow_def_code","caption": "Workflow","type":"varchar","length":16,"actions":"B","nl":1,"control":"dropdown_S",
-        "lov": {"sql":"select wkflow_def_code codeval,wkflow_def_name codetxt from wkflow.wkflow_def where 1=1 order by wkflow_def_name ","blank":"(All)"} },
+        "lov": {"sql":"select wkflow_def_code codeval,wkflow_def_name codetxt from {schema}.wkflow_def where 1=1 order by wkflow_def_name ","blank":"(All)"} },
       {"control":"button","value":"Run Report","controlstyle": "padding:3px 8px;","nl": true,"onclick": "jsh.XPage.RunReport();","caption":""},
       //{"control":"button","value":"Preview Report","controlstyle": "padding:3px 8px;","nl": true,"onclick": "jsh.XPage.RunReportHTML();","caption":""},
     ],
     "reportdata" : {
       "global":{
         "sql":[
-          "select $iif(@wkflow_def_code is null,'(All)',(select wkflow_def_name from wkflow.wkflow_def where wkflow_def_code = @wkflow_def_code)) wkflow_def_name ",
+          "select $iif(@wkflow_def_code is null,'(All)',(select wkflow_def_name from {schema}.wkflow_def where wkflow_def_code = @wkflow_def_code)) wkflow_def_name ",
           "  from jsharmony.single",
           "  where 1=1 %%%DATALOCKS%%% "
         ]
@@ -39,9 +39,9 @@
           "       wkflow.wkflow_def_id, ",
           "       wkflow_def.wkflow_def_code, ", 
           "       wkflow_def.wkflow_def_name ", 
-          "  from wkflow.wkflow ",
-          " inner join wkflow.wkflow_def on wkflow_def.wkflow_def_id = wkflow.wkflow_def_id ",
-          " where wkflow.wkflow_def_id = isnull((select wkflow_def_id from wkflow.wkflow_def where wkflow_def.wkflow_def_code=@wkflow_def_code),wkflow.wkflow_def_id) ", 
+          "  from {schema}.wkflow ",
+          " inner join {schema}.wkflow_def on wkflow_def.wkflow_def_id = wkflow.wkflow_def_id ",
+          " where wkflow.wkflow_def_id = isnull((select wkflow_def_id from {schema}.wkflow_def where wkflow_def.wkflow_def_code=@wkflow_def_code),wkflow.wkflow_def_id) ", 
           "   and wkflow.wkflow_sts = 'COMPLETE' ",
           "   and isnull(@dt_from, wkflow.wkflow_etstmp) <= wkflow.wkflow_etstmp ",
           "   and isnull($addDays(@dt_to,1), wkflow.wkflow_etstmp) > wkflow.wkflow_etstmp ",

@@ -1,6 +1,6 @@
 {
   "name": "jsharmony-workflow",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "jsHarmony Workflow",
   "main": "index.js",
   "keywords": [
@@ -12,8 +12,8 @@
   "author": "apHarmony <contact@apharmony.com> (http://www.apharmony.com/)",
   "license": "LGPL-3.0",
   "dependencies": {
-    "jsharmony": "^1.33.0",
-    "jsharmony-factory": "^1.21.1",
+    "jsharmony": "^2.0.0",
+    "jsharmony-factory": "^2.0.0",
     "lodash": "^4.17.19",
     "async": "^2.6.2",
     "rrule": "^2.7.1"
