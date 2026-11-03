@@ -1,7 +1,7 @@
 {
   "Wkflow": {
     "layout":"form",
-    "table":"wkflow",
+    "table":"{schema}.wkflow",
     "title":"Workflow",
     "actions":"BIUD",
     "caption": ["","Workflow","Workflows"],

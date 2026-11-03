@@ -1,7 +1,7 @@
 {
   "Task": {
     "layout":"form",
-    "table":"task",
+    "table":"{schema}.task",
     "title":"Task",
     "actions":"BIUD",
     "caption": ["","Task","Tasks"],

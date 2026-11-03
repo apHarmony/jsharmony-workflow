@@ -2,7 +2,7 @@
   "WkflowDef_State_Listing":{
     "layout": "grid",
     "title": "States",
-    "table": "wkflow_def_state",
+    "table": "{schema}.wkflow_def_state",
     "caption": ["","State","States"],
     "actions": "B",
     "buttons":[

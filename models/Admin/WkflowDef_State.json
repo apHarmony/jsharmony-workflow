@@ -1,7 +1,7 @@
 {
   "WkflowDef_State": {
     "layout":"form",
-    "table":"wkflow_def_state",
+    "table":"{schema}.wkflow_def_state",
     "title":"State",
     "actions":"BIUD",
     "caption": ["","State","States"],

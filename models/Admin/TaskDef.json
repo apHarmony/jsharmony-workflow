@@ -1,7 +1,7 @@
 {
   "TaskDef": {
     "layout":"form",
-    "table":"task_def",
+    "table":"{schema}.task_def",
     "title":"Task Definition",
     "actions":"BIUD",
     "caption": ["","Task Definition","Task Definitions"],

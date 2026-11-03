@@ -2,7 +2,7 @@
   "Wkflow_Listing":{
     "layout": "grid",
     "title": "Workflows",
-    "table": "wkflow",
+    "table": "{schema}.wkflow",
     "menu": "Wkflow/Wkflow_Listing",
     "caption": ["","Workflow","Workflows"],
     "actions": "B",

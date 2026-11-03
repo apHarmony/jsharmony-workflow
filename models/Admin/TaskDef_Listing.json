@@ -2,7 +2,7 @@
   "TaskDef_Listing":{
     "layout": "grid",
     "title": "Task Definitions",
-    "table": "task_def",
+    "table": "{schema}.task_def",
     "menu": "Admin/TaskDef_Listing",
     "caption": ["","Task Definition","Task Definitions"],
     "actions": "B",

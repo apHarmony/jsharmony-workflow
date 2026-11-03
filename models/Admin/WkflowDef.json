@@ -1,7 +1,7 @@
 {
   "WkflowDef": {
     "layout":"form",
-    "table":"wkflow_def",
+    "table":"{schema}.wkflow_def",
     "title":"Workflow Definition",
     "actions":"BIUD",
     "caption": ["","Workflow Definition","Workflow Definitions"],

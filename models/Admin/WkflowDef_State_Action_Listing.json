@@ -2,7 +2,7 @@
   "WkflowDef_State_Action_Listing":{
     "layout": "grid",
     "title": "Actions",
-    "table": "wkflow_def_state_action",
+    "table": "{schema}.wkflow_def_state_action",
     "caption": ["","Action","Actions"],
     "actions": "B",
     "sort": ["^wkflow_def_state_action_id"],

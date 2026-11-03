@@ -2,7 +2,7 @@
   "TaskDef_Tabs":{
     "layout": "form", 
     "title": "Task Definition: <#=data.task_def_name#>",
-    "table": "task_def",
+    "table": "{schema}.task_def",
     "actions": "B",
     "caption": [ 0, "Task Definition", "Task Definitions" ],
     "tabpos":"bottom",

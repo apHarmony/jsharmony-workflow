@@ -2,7 +2,7 @@
   "Wkflow_Tabs":{
     "layout": "form", 
     "title": "Workflow: <#=data.wkflow_def_name#>",
-    "table": "wkflow",
+    "table": "{schema}.wkflow",
     "actions": "B",
     "caption": [ 0, "Workflow", "Workflows" ],
     "tabpos":"bottom",

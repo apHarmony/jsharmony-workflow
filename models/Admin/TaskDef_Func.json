@@ -2,7 +2,7 @@
   "TaskDef_Func":{
     "layout": "multisel",
     "title": "Functions",
-    "table": "task_def_sys_func",
+    "table": "{schema}.task_def_sys_func",
     "caption": ["","Function","Functions"],
     "actions": "BU",
     "sort": ["^task_def_id"],

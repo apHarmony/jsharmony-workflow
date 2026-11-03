@@ -1,7 +1,7 @@
 {
   "WkflowDef_Tran_Start": {
     "layout":"form",
-    "table":"wkflow_def_state_tran",
+    "table":"{schema}.wkflow_def_state_tran",
     "title":"Start Transition",
     "actions":"BIUD",
     "caption": ["","Start Transition","Start Transitions"],

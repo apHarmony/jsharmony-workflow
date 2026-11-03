@@ -2,7 +2,7 @@
   "Task_Listing":{
     "layout": "grid",
     "title": "Tasks",
-    "table": "task",
+    "table": "{schema}.task",
     "menu": "Wkflow/Task_Listing",
     "caption": ["","Task","Tasks"],
     "actions": "B",

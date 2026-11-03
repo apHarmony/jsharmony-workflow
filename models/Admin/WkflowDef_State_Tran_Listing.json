@@ -2,7 +2,7 @@
   "WkflowDef_State_Tran_Listing":{
     "layout": "grid",
     "title": "Transitions",
-    "table": "wkflow_def_state_tran",
+    "table": "{schema}.wkflow_def_state_tran",
     "caption": ["","Transition","Transitions"],
     "actions": "B",
     "sort": ["^wkflow_def_state_tran_seq","^wkflow_def_state_tran_id"],

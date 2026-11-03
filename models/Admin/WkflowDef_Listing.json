@@ -2,7 +2,7 @@
   "WkflowDef_Listing":{
     "layout": "grid",
     "title": "Workflow Definitions",
-    "table": "wkflow_def",
+    "table": "{schema}.wkflow_def",
     "menu": "Admin/WkflowDef_Listing",
     "caption": ["","Workflow Definition","Workflow Definitions"],
     "actions": "B",

@@ -1,7 +1,7 @@
 {
   "WkflowDef_State_Tran": {
     "layout":"form",
-    "table":"wkflow_def_state_tran",
+    "table":"{schema}.wkflow_def_state_tran",
     "title":"Transition",
     "actions":"BIUD",
     "caption": ["","Transition","Transitions"],

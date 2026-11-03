@@ -2,7 +2,7 @@
   "WkflowDef_State_Tabs":{
     "layout": "form", 
     "title": "State: <#=data.wkflow_def_state_name#>",
-    "table": "wkflow_def_state",
+    "table": "{schema}.wkflow_def_state",
     "actions": "B",
     "caption": [ 0, "State", "States" ],
     "tabpos":"bottom",
